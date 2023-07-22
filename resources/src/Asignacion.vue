@@ -117,8 +117,8 @@
             <tbody class="table-group-divider">
                 <tr v-for="asignacion in asignaciones" :key="asignacion.id">
                     <th scope="row">{{ asignacion.id }}</th>
-                    <td>{{ asignacion.equipo_id }}</td>
-                    <td>{{ asignacion.usuario_id }}</td>
+                    <td>{{ asignacion.equipo.marca }}</td>
+                    <td>{{ asignacion.empleado.nombre }}</td>
                     <td>{{ asignacion.fecha_asignacion }}</td>
                     <td>
                         <button
@@ -207,12 +207,9 @@ export default {
                     "/asignaciones/" + this.id,
                     this.asignacion
                 );
-                console.log(res.data);
                 this.closeModal();
             } else {
-                console.log(this.asignacion);
                 const res = await axios.post("/asignaciones", this.asignacion);
-                console.log(res.data);
             }
             this.closeModal();
             this.listar();

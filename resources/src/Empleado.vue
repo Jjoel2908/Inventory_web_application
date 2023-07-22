@@ -1,8 +1,6 @@
 <template>
     <div>
-        <h1 class="text-center">
-            <i class="fas fa-users"></i> | Empleados
-        </h1>
+        <h1 class="text-center"><i class="fas fa-users"></i> | Empleados</h1>
     </div>
 
     <!-- Botón para agregar un nuevo registro -->
@@ -14,13 +12,12 @@
             "
             type="button"
             class="btn btn-dark ml-auto"
-            >
+        >
             <i class="fas fa-plus"></i>
             Agregar empleado
         </button>
-
     </div>
-    
+
     <!-- Modal -->
     <div class="modal" :class="{ show: modal }">
         <div class="modal-dialog">
@@ -55,15 +52,30 @@
 
                     <div>
                         <label for="departamento">Departamento</label>
-                        <input
+                        <select
                             v-model="empleado.departamento"
-                            type="text"
-                            class="form-control"
+                            class="form-select"
                             id="departamento"
-                            placeholder="Departamento"
-                            name=""
-                        />
+                            name="departamento"
+                        >
+                            <option value="Finanzas">Finanzas</option>
+                            <option value="Recursos Humanos">
+                                Recursos Humanos
+                            </option>
+                            <option value="Marketing y Publicidad">
+                                Marketing y Publicidad
+                            </option>
+                            <option value="Comercial">Comercial</option>
+                            <option value="Compras">Compras</option>
+                            <option value="Logística">Logística</option>
+                            <option value="Gestión y Administración">
+                                Gestión y Administración
+                            </option>
+                            <option value="Directivo">Directivo</option>
+                            <option value="Sistemas">Sistemas</option>
+                        </select>
                     </div>
+
                 </div>
                 <div class="modal-footer">
                     <button
@@ -94,9 +106,7 @@
                     <th scope="col">Id</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Departamento</th>
-                    <th scope="col" colspan="2">
-                        Acciones
-                    </th>
+                    <th scope="col" colspan="2">Acciones</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
@@ -112,7 +122,7 @@
                             "
                             class="btn btn-warning"
                         >
-                        <i class="fas fa-edit"></i>
+                            <i class="fas fa-edit"></i>
                             Editar
                         </button>
                     </td>

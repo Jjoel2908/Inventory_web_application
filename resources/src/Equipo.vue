@@ -1,7 +1,8 @@
 <template>
     <div>
         <h1 class="text-center">
-            <i class="fas fa-desktop"></i> | Equipos de cómputo</h1>
+            <i class="fas fa-desktop"></i> | Equipos de cómputo
+        </h1>
     </div>
 
     <!-- Botón para agregar un nuevo registro -->
@@ -13,9 +14,9 @@
             "
             type="button"
             class="btn btn-dark"
-            >
+        >
             <i class="fas fa-plus"></i>
-                Agregar equipo
+            Agregar equipo
         </button>
     </div>
 
@@ -77,15 +78,18 @@
 
                     <div>
                         <label for="estado">Estado</label>
-                        <input
+                        <select
                             v-model="equipo.estado"
-                            type="text"
-                            class="form-control"
+                            class="form-select"
                             id="estado"
-                            placeholder="Estado"
-                            name=""
-                        />
+                            name="estado"
+                        >
+                            <option value="En resguardo">En resguardo</option>
+                            <option value="Disponible">Disponible</option>
+                            <option value="En reparación">En reparación</option>
+                        </select>
                     </div>
+
                 </div>
                 <div class="modal-footer">
                     <button
@@ -118,9 +122,7 @@
                     <th scope="col">Modelo</th>
                     <th scope="col">Características</th>
                     <th scope="col">Estado</th>
-                    <th scope="col" colspan="2">
-                        Acciones
-                    </th>
+                    <th scope="col" colspan="2">Acciones</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
@@ -193,7 +195,7 @@ export default {
         };
     },
     methods: {
-      //Método para listar todos los registros de la base de datos
+        //Método para listar todos los registros de la base de datos
         async listar() {
             const res = await axios.get("equipos");
 

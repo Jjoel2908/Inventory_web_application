@@ -19,13 +19,14 @@ class Assignment extends Model
     ];
 
     //Funciones para trabajar con los datos que tienen las tablas equipo y empleados
+
     public function equipo()
     {
-        return $this->belongsTo(Equipo::class);
+        return $this->belongsTo(Equipo::class, 'equipo_id');
     }
 
     public function empleado()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(Employee::class, 'usuario_id');
     }
 }

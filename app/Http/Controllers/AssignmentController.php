@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Assignment;
 use App\Models\Equipo;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class AssignmentController extends Controller
 {
@@ -15,7 +17,8 @@ class AssignmentController extends Controller
      */
     public function index()
     {
-        return Assignment::orderBy('id', 'desc')->get();
+        $assignment = Assignment::with('equipo', 'empleado')->get();
+        return response()->json($assignment);
     }
 
     /**
@@ -48,20 +51,32 @@ class AssignmentController extends Controller
     /**
      * Función para actualizar
      */
+
     public function update(Request $request, Assignment $assignment, $id)
     {
         $assignment = Assignment::find($id);
         if (!$assignment) {
-            return response()->json(['message' => 'assignment no encontrado'], 404);
+        return response()->json(['message' => 'assignment no encontrado'], 404);
         }
 
         $assignment->equipo_id = $request->input('equipo_id');
         $assignment->usuario_id = $request->input('usuario_id');
-        $assignment->fecha_asignacion = $request->input('fecha_asignacion');
+
+        // Obtén la fecha y hora desde el formulario o cualquier otra fuente
+        $fechaAsignacion = $request->input('fecha_asignacion');
+
+        // Formatea la fecha y hora utilizando Carbon
+        $fechaFormateada = Carbon::parse($fechaAsignacion)->format('Y-m-d H:i:s');
+
+        // Asigna la fecha y hora formateada al modelo Assignment
+        $assignment->fecha_asignacion = $fechaFormateada;
+
         $assignment->save();
 
         return response()->json($assignment);
     }
+
+
 
     /**
      * Función para eliminar
