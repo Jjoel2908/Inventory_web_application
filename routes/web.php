@@ -1,6 +1,10 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EquipmentController;
+use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\EmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +20,25 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+//Rutas para la tabla de equipos 
+Route::get('/equipos', [EquipmentController::class, 'index']);
+Route::post('/equipos', [EquipmentController::class, 'store']);
+Route::get('/equipos/{id}', [EquipmentController::class, 'show']);
+Route::put('/equipos/{id}', [EquipmentController::class, 'update']);
+Route::delete('/equipos/{id}', [EquipmentController::class, 'destroy']);
+
+//Rutas para la tabla de asignaciones
+Route::get('/asignaciones', [AssignmentController::class, 'index']);
+Route::post('/asignaciones', [AssignmentController::class, 'store']);
+Route::get('/asignaciones/{id}', [AssignmentController::class, 'show']);
+Route::put('/asignaciones/{id}', [AssignmentController::class, 'update']);
+Route::delete('/asignaciones/{id}', [AssignmentController::class, 'destroy']);
+
+//Rutas para la tabla de empleados
+Route::get('/empleados', [EmployeeController::class, 'index']);
+Route::post('/empleados', [EmployeeController::class, 'store']);
+Route::get('/empleados/{id}', [EmployeeController::class, 'show']);
+Route::put('/empleados/{id}', [EmployeeController::class, 'update']);
+Route::delete('/empleados/{id}', [EmployeeController::class, 'destroy']);
+
