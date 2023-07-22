@@ -1,19 +1,23 @@
 <template>
     <div>
-        <h1 class="text-center">Equipos de cómputo</h1>
+        <h1 class="text-center">
+            <i class="fas fa-desktop"></i> | Equipos de cómputo</h1>
     </div>
 
     <!-- Botón para agregar un nuevo registro -->
-    <button
-        @click="
-            update = false;
-            openModal();
-        "
-        type="button"
-        class="btn btn-primary ml-auto"
-    >
-        Agregar
-    </button>
+    <div class="d-flex justify-content-end">
+        <button
+            @click="
+                update = false;
+                openModal();
+            "
+            type="button"
+            class="btn btn-dark"
+            >
+            <i class="fas fa-plus"></i>
+                Agregar equipo
+        </button>
+    </div>
 
     <!-- Modal -->
     <div class="modal" :class="{ show: modal }">
@@ -114,7 +118,7 @@
                     <th scope="col">Modelo</th>
                     <th scope="col">Características</th>
                     <th scope="col">Estado</th>
-                    <th scope="col" colspan="2" class="text-center">
+                    <th scope="col" colspan="2">
                         Acciones
                     </th>
                 </tr>
@@ -134,6 +138,7 @@
                             "
                             class="btn btn-warning"
                         >
+                            <i class="fas fa-edit"></i>
                             Editar
                         </button>
                     </td>
@@ -142,6 +147,7 @@
                             @click="eliminar(equipo.id)"
                             class="btn btn-danger"
                         >
+                            <i class="fas fa-trash-alt"></i>
                             Eliminar
                         </button>
                     </td>
@@ -153,10 +159,12 @@
     <!-- Botones para exportar en PDF y Excel -->
     <div class="d-flex justify-content-center align-items-center">
         <div>
-            <button @click="exportarPDF" class="btn btn-primary">
+            <button @click="exportarPDF" class="btn btn-danger">
+                <i class="far fa-file-pdf"></i>
                 Exportar a PDF
             </button>
             <button @click="exportarExcel" class="btn btn-success">
+                <i class="far fa-file-excel"></i>
                 Exportar a Excel
             </button>
         </div>

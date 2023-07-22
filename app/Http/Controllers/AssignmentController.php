@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Assignment;
+use App\Models\Equipo;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 
 class AssignmentController extends Controller
@@ -13,8 +15,7 @@ class AssignmentController extends Controller
      */
     public function index()
     {
-        $assignments = Assignment::all();
-        return response()->json($assignments);
+        return Assignment::orderBy('id', 'desc')->get();
     }
 
     /**
@@ -23,10 +24,9 @@ class AssignmentController extends Controller
     public function store(Request $request)
     {
         $assignment = new Assignment();
-        $assignment->marca = $request->input('marca');
-        $assignment->modelo = $request->input('modelo');
-        $assignment->caracteristicas = $request->input('caracteristicas');
-        $assignment->estado = 'En Resguardo'; // Estado por defecto al asignar un assignment
+        $assignment->equipo_id = $request->input('equipo_id');
+        $assignment->usuario_id = $request->input('usuario_id');
+        $assignment->fecha_asignacion = $request->input('fecha_asignacion');
         $assignment->save();
 
         return response()->json($assignment, 201);
@@ -48,16 +48,16 @@ class AssignmentController extends Controller
     /**
      * Función para actualizar
      */
-    public function update(Request $request, Assignment $assignment)
+    public function update(Request $request, Assignment $assignment, $id)
     {
         $assignment = Assignment::find($id);
         if (!$assignment) {
             return response()->json(['message' => 'assignment no encontrado'], 404);
         }
 
-        $assignment->marca = $request->input('marca');
-        $assignment->modelo = $request->input('modelo');
-        $assignment->caracteristicas = $request->input('caracteristicas');
+        $assignment->equipo_id = $request->input('equipo_id');
+        $assignment->usuario_id = $request->input('usuario_id');
+        $assignment->fecha_asignacion = $request->input('fecha_asignacion');
         $assignment->save();
 
         return response()->json($assignment);
@@ -76,5 +76,18 @@ class AssignmentController extends Controller
         $assignment->delete();
 
         return response()->json(['message' => 'assignment eliminado']);
+    }
+
+    //Método para poder obtener todos la información de equipos
+    public function getEquipos()
+    {
+        $equipos = Equipo::all();
+        return response()->json($equipos);
+    }
+    //Método para poder obtener todos la información de empleados
+    public function getEmpleados()
+    {
+        $empleados = Employee::all();
+        return response()->json($empleados);
     }
 }

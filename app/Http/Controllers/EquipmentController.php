@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Equipment;
+use App\Models\Equipo;
 use Illuminate\Http\Request;
 
 class EquipmentController extends Controller
@@ -12,7 +12,7 @@ class EquipmentController extends Controller
      */
     public function index()
     {
-        return Equipment::orderBy('id', 'desc')->get();
+        return Equipo::orderBy('id', 'desc')->get();
     }
 
     /**
@@ -33,35 +33,43 @@ class EquipmentController extends Controller
     /**
      * Función para mostrar los registros
      */
-    public function show(Equipment $equipment)
+    public function show(Equipo $equipo)
     {
-        return $equipment;
+        return $equipo;
     }
 
     /**
     * Función para actualizar
     */
-    public function update(Request $request, Equipment $equipment)
+    public function update(Request $request, Equipo $equipo, $id)
     {
-        $equipment = Equipo::find($id);
-        if (!$equipment) {
+        $equipo = Equipo::find($id);
+        if (!$equipo) {
             return response()->json(['message' => 'Equipo no encontrado'], 404);
         }
 
-        $equipment->marca = $request->input('marca');
-        $equipment->modelo = $request->input('modelo');
-        $equipment->caracteristicas = $request->input('caracteristicas');
-        $equipment->save();
+        $equipo->marca = $request->input('marca');
+        $equipo->modelo = $request->input('modelo');
+        $equipo->caracteristicas = $request->input('caracteristicas');
+        $equipo->estado = $request->input('estado');
+        $equipo->save();
 
-        return response()->json($$equipment);
+        return response()->json($equipo);
     }
 
 
     /**
      * Función para eliminar
      */
-    public function destroy(Equipment $equipment)
+    public function destroy($id)
     {
-        $equipment->delete();
+        $equipo = Equipo::find($id);
+        if (!$equipo) {
+            return response()->json(['message' => 'Equipo no encontrado'], 404);
+        }
+
+        $equipo->delete();
+
+        return response()->json(['message' => 'Equipo eliminado']);
     }
 }

@@ -34,6 +34,8 @@ Route::post('/asignaciones', [AssignmentController::class, 'store']);
 Route::get('/asignaciones/{id}', [AssignmentController::class, 'show']);
 Route::put('/asignaciones/{id}', [AssignmentController::class, 'update']);
 Route::delete('/asignaciones/{id}', [AssignmentController::class, 'destroy']);
+Route::get('/equipos', [AssignmentController::class, 'getEquipos']);
+Route::get('/empleados', [AssignmentController::class, 'getEmpleados']);
 
 //Rutas para la tabla de empleados
 Route::get('/empleados', [EmployeeController::class, 'index']);

@@ -8,6 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 class Assignment extends Model
 {
     use HasFactory;
+
     // Escribimos el nombre de nuestra tabla en la base de datos
+    public $timestamps = false;
     protected $table = 'asignaciones';
+    protected $fillable = [
+        'equipo_id',
+        'usuario_id',
+        'fecha_asignacion',
+    ];
+
+    //Funciones para trabajar con los datos que tienen las tablas equipo y empleados
+    public function equipo()
+    {
+        return $this->belongsTo(Equipo::class);
+    }
+
+    public function empleado()
+    {
+        return $this->belongsTo(Employee::class);
+    }
 }

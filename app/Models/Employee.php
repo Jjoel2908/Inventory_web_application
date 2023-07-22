@@ -9,6 +9,7 @@ class Employee extends Model
 {
     use HasFactory;
     // Escribimos el nombre de nuestra tabla en la base de datos
+    public $timestamps = false;
     protected $table = 'usuarios';
     protected $fillable = [
         'nombre',

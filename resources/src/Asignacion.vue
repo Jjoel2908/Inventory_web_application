@@ -1,19 +1,22 @@
 <template>
     <div>
-        <h1 class="text-center">Asignaciones</h1>
+        <h1 class="text-center"><i class="fas fa-tasks"></i> | Asignaciones</h1>
     </div>
 
     <!-- Botón para agregar un nuevo registro -->
-    <button
-        @click="
-            update = false;
-            openModal();
-        "
-        type="button"
-        class="btn btn-primary ml-auto"
-    >
-        Agregar asignación
-    </button>
+    <div class="d-flex justify-content-end">
+        <button
+            @click="
+                update = false;
+                openModal();
+            "
+            type="button"
+            class="btn btn-dark ml-auto"
+        >
+            <i class="fas fa-plus"></i>
+            Agregar asignación
+        </button>
+    </div>
 
     <!-- Modal -->
     <div class="modal" :class="{ show: modal }">
@@ -36,40 +39,47 @@
                 </div>
                 <div class="modal-body">
                     <div>
-                        <label for="equipo_id">Id Equipo</label>
-                        <input
+                        <label for="equipo_id">Equipo</label>
+                        <select
                             v-model="asignacion.equipo_id"
-                            type="text"
                             class="form-control"
                             id="equipo_id"
-                            placeholder="Id de equipo"
-                            name=""
-                        />
+                        >
+                            <option
+                                v-for="equipo in equipos"
+                                :value="equipo.id"
+                                :key="equipo.id"
+                            >
+                                {{ equipo.marca }}
+                            </option>
+                        </select>
                     </div>
 
                     <div>
-                        <label for="usuario_id">Id Usuario</label>
-                        <input
+                        <label for="usuario_id">Usuario</label>
+                        <select
                             v-model="asignacion.usuario_id"
-                            type="text"
                             class="form-control"
                             id="usuario_id"
-                            placeholder="Id de usuario"
-                            name=""
-                        />
+                        >
+                            <option
+                                v-for="empleado in empleados"
+                                :value="empleado.id"
+                                :key="empleado.id"
+                            >
+                                {{ empleado.nombre }}
+                            </option>
+                        </select>
                     </div>
 
                     <div>
-                        <label for="fecha_asignacion">Caracteristicas</label>
-                        <input
-                            v-model="asignacion.fecha_asignacion"
-                            type="text"
-                            class="form-control"
-                            id="fecha_asignacion"
-                            placeholder="Asignaciones"
-                            name=""
-                        />
+                        <label for="fecha_asignacion"
+                            >Fecha de asignación</label
+                        >
+                        <VueDatePicker v-model="asignacion.fecha_asignacion" id="fecha_asignacion">
+                        </VueDatePicker>
                     </div>
+
                 </div>
                 <div class="modal-footer">
                     <button
@@ -101,9 +111,7 @@
                     <th scope="col">Id Equipo</th>
                     <th scope="col">Id Usuario</th>
                     <th scope="col">Fecha</th>
-                    <th scope="col" colspan="2" class="text-center">
-                        Acciones
-                    </th>
+                    <th scope="col" colspan="2">Acciones</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
@@ -120,6 +128,7 @@
                             "
                             class="btn btn-warning"
                         >
+                            <i class="fas fa-edit"></i>
                             Editar
                         </button>
                     </td>
@@ -128,6 +137,7 @@
                             @click="eliminar(asignacion.id)"
                             class="btn btn-danger"
                         >
+                            <i class="fas fa-trash-alt"></i>
                             Eliminar
                         </button>
                     </td>
@@ -139,10 +149,12 @@
     <!-- Botones para exportar en PDF y Excel -->
     <div class="d-flex justify-content-center align-items-center">
         <div>
-            <button @click="exportarPDF" class="btn btn-primary">
+            <button @click="exportarPDF" class="btn btn-danger">
+                <i class="far fa-file-pdf"></i>
                 Exportar a PDF
             </button>
             <button @click="exportarExcel" class="btn btn-success">
+                <i class="far fa-file-excel"></i>
                 Exportar a Excel
             </button>
         </div>
@@ -153,6 +165,8 @@
 import jsPDF from "jspdf";
 import html2pdf from "html2pdf.js";
 import { writeFile } from "xlsx";
+import VueDatePicker from '@vuepic/vue-datepicker';
+
 export default {
     data() {
         return {
@@ -163,13 +177,16 @@ export default {
             },
             id: 0,
             update: true,
+            date: null,
             modal: 0,
             titleModal: " ",
             asignaciones: [],
+            equipos: [],
+            empleados: [],
         };
     },
+    components: { VueDatePicker },
     methods: {
-
         //Método para listar todos los registros de la base de datos
         async listar() {
             const res = await axios.get("asignaciones");
@@ -251,8 +268,20 @@ export default {
 
             exportData();
         },
+
+        async listarEquipos() {
+            const res = await axios.get("/equipos");
+            this.equipos = res.data;
+        },
+
+        async listarEmpleados() {
+            const res = await axios.get("/empleados");
+            this.empleados = res.data;
+        },
     },
     created() {
+        this.listarEmpleados();
+        this.listarEquipos();
         this.listar();
     },
 };
@@ -264,4 +293,6 @@ export default {
     opacity: 1;
     background: rgba(44, 38, 75, 0.849);
 }
+
+@import '@vuepic/vue-datepicker/dist/main.css';
 </style>
